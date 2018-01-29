@@ -36,7 +36,7 @@ public class ProcessFile
 
 		File currentFolder = new File(System.getProperty("user.dir"));
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Do you want to unzip the files and start (Y/N)?");
+		System.out.println("\nDo you want to unzip the files and start (Y/N)?");
 		String userPrompt = scanner.nextLine();
 
 		if ("Y".equalsIgnoreCase(userPrompt) || "YES".equalsIgnoreCase(userPrompt))
@@ -59,22 +59,24 @@ public class ProcessFile
 		}
 
 		File[] listOfFiles = currentFolder.listFiles();
-		System.out.println("Searching files in progress");
+		System.out.println("\nSearching files in progress");
 		if (!new File(System.getProperty("user.dir") + SEARCH_RESULTS_LOCATION).exists())
 		{
 			new File(System.getProperty("user.dir") + SEARCH_RESULTS_LOCATION).mkdirs();
 		}
 		if (null != listOfFiles)
 		{
+			Integer textFileCounter = 0;
 			for (File file : listOfFiles)
 			{
 				if (file.getName().contains(".txt"))
 				{
-					System.out.println("Processing " + file.getName());
+					textFileCounter++;
+					System.out.println("\nProcessing " + file.getName());
 					processFile(file, System.getProperty("user.dir") + SEARCH_RESULTS_LOCATION + "\\result_" + file.getName());
 				}
 			}
-			System.out.println("Searching completed for " + listOfFiles.length + " files");
+			System.out.println("\nSearching completed for " + textFileCounter + " files");
 		}
 		else
 		{
@@ -91,20 +93,23 @@ public class ProcessFile
 	{
 		if (null != System.getProperty("delimiter"))
 		{
+			System.out.println("Setting delimiter");
 			START_DELIMITER = System.getProperty("delimiter");
 		}
 
 		if (null != System.getProperty("search.text.1"))
 		{
+			System.out.println("Setting search.text.1");
 			SEARCH_TEXT_1 = System.getProperty("search.text.1");
 		}
 
 		if (null != System.getProperty("search.text.2"))
 		{
+			System.out.println("Setting search.text.2");
 			SEARCH_TEXT_2 = System.getProperty("search.text.2");
 		}
 
-		System.out.println("----------------- Search settings ---------------");
+		System.out.println("\n----------------- Search settings ---------------");
 		System.out.println("Delimter      :  " + START_DELIMITER);
 		System.out.println("Search text 1 :  " + SEARCH_TEXT_1);
 		if (null != System.getProperty("search.text.2"))
