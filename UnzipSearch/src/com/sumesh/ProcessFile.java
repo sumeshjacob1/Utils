@@ -11,33 +11,28 @@ import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+/**
+ * 
+ * @author sja002
+ *
+ */
 public class ProcessFile
 {
-	private static String		SEARCH_TEXT_2			= "LOC+11+TWKHH";
+	private static String		SEARCH_TEXT_2			= null;
 	private static String		SEARCH_TEXT_1			= "LOC+9+ITSPE";
-	private static final String	START_DELIMITER			= "TDT+20";
+	private static String		START_DELIMITER			= "TDT+20";
 	private static final String	EMPTY_STRING			= "";
 	private static final String	SEARCH_RESULTS_LOCATION	= "\\output\\Search_Results";
 	private static final String	EXTRACTED_FILE_LOCATION	= "\\output\\extracted";
 
+	/**
+	 * 
+	 * @param args
+	 * @throws IOException
+	 */
 	public static void main(String... args) throws IOException
 	{
-		if (null != args && args.length > 0 && null != args[0])
-		{
-			SEARCH_TEXT_1 = args[0];
-			if (null != args[1])
-			{
-				SEARCH_TEXT_2 = args[1];
-			}
-			else
-			{
-				System.out.println("Search text two set  as " + SEARCH_TEXT_2);
-			}
-		}
-		else
-		{
-			System.out.println("Search text set as " + SEARCH_TEXT_1 + " and " + SEARCH_TEXT_2);
-		}
+		readSearchSettings();
 
 		File currentFolder = new File(System.getProperty("user.dir"));
 		Scanner scanner = new Scanner(System.in);
@@ -89,6 +84,43 @@ public class ProcessFile
 		scanner.close();
 	}
 
+	/**
+	 * 
+	 */
+	private static void readSearchSettings()
+	{
+		if (null != System.getProperty("delimiter"))
+		{
+			START_DELIMITER = System.getProperty("delimiter");
+		}
+
+		if (null != System.getProperty("search.text.1"))
+		{
+			SEARCH_TEXT_1 = System.getProperty("search.text.1");
+		}
+
+		if (null != System.getProperty("search.text.2"))
+		{
+			SEARCH_TEXT_2 = System.getProperty("search.text.2");
+		}
+
+		System.out.println("----------------- Search settings ---------------");
+		System.out.println("Delimter      :  " + START_DELIMITER);
+		System.out.println("Search text 1 :  " + SEARCH_TEXT_1);
+		if (null != System.getProperty("search.text.2"))
+		{
+			System.out.println("Search text 2 :  " + SEARCH_TEXT_2);
+		}
+		System.out.println("------------------------------------------------");
+	}
+
+	/**
+	 * 
+	 * @param inputFile
+	 * @param outFile
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	private static void processFile(File inputFile, String outFile) throws FileNotFoundException, IOException
 	{
 		StringBuilder bufferedString = new StringBuilder();
@@ -116,10 +148,21 @@ public class ProcessFile
 
 					if (currentSchedule != null && !EMPTY_STRING.equals(currentSchedule.toString()))
 					{
-						if (currentSchedule.contains(SEARCH_TEXT_1) && currentSchedule.contains(SEARCH_TEXT_2))
+						if (null != SEARCH_TEXT_2)
 						{
-							matchCounter++;
-							writer.write(currentSchedule + System.getProperty("line.separator"));
+							if (currentSchedule.contains(SEARCH_TEXT_1) && currentSchedule.contains(SEARCH_TEXT_2))
+							{
+								matchCounter++;
+								writer.write(currentSchedule + System.getProperty("line.separator"));
+							}
+						}
+						else
+						{
+							if (currentSchedule.contains(SEARCH_TEXT_1))
+							{
+								matchCounter++;
+								writer.write(currentSchedule + System.getProperty("line.separator"));
+							}
 						}
 					}
 
@@ -151,6 +194,11 @@ public class ProcessFile
 
 	}
 
+	/**
+	 * 
+	 * @param zipFilePath
+	 * @param destDir
+	 */
 	private static void unzip(File zipFilePath, String destDir)
 	{
 		File dir = new File(destDir);
