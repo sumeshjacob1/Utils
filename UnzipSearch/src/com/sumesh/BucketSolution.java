@@ -3,7 +3,7 @@ package com.sumesh;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Solution
+public class BucketSolution
 {
 	public static void main(String[] args)
 	{
