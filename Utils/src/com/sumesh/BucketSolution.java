@@ -16,7 +16,7 @@ public class BucketSolution
 		if (volume > 0 && searchIndex > 0)
 		{
 			Map<Integer, Bucket> buckets = new HashMap<Integer, Bucket>();
-			Bucket root = new Solution().new Bucket();
+			Bucket root = new BucketSolution().new Bucket();
 			root.setIndex(1);
 			root.setLevel(1);
 
@@ -96,7 +96,7 @@ public class BucketSolution
 		}
 		else
 		{
-			leftChild = new Solution().new Bucket();
+			leftChild = new BucketSolution().new Bucket();
 			leftChild.setIndex(nextLeftNodeIndex);
 			leftChild.setLevel(root.getLevel() + 1);
 		}
@@ -109,7 +109,7 @@ public class BucketSolution
 		}
 		else
 		{
-			rightChild = new Solution().new Bucket();
+			rightChild = new BucketSolution().new Bucket();
 			rightChild.setIndex(nextRightNodeIndex);
 			rightChild.setLevel(root.getLevel() + 1);
 		}
