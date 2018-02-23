@@ -22,7 +22,16 @@ public class Soln
 	 */
 	static String decode(String encodedMessage)
 	{
-		 return "";
+		String reverse = new StringBuilder(encodedMessage).reverse().toString();
+		StringBuilder decoded = new StringBuilder();
+		for (int i = 0; i < reverse.length(); i++)
+		{
+			char c = reverse.charAt(i);
+			c -= i;
+			decoded.append(c /= 2);
+		}
+		return decoded.toString();
+	}
 	}
 
 	public static void main(String[] args) throws IOException
