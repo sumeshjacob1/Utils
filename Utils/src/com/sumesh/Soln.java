@@ -32,7 +32,7 @@ public class Soln
 		}
 		return decoded.toString();
 	}
-	}
+	
 
 	public static void main(String[] args) throws IOException
 	{
